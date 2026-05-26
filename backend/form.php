@@ -31,25 +31,21 @@ $phone   = trim($data["phone"]   ?? "");
 $email   = trim($data["email"]   ?? "");
 $comment = trim($data["comment"] ?? "");
 
-// Генерация логина и пароля
 function generateLogin($pdo) {
     $chars = "abcdefghijklmnopqrstuvwxyz0123456789";
 
-    // Пробуем до 10 раз — на случай коллизии
     for ($i = 0; $i < 10; $i++) {
         $login = "user_";
         for ($j = 0; $j < 6; $j++) {
             $login .= $chars[random_int(0, strlen($chars) - 1)];
         }
 
-        // Проверяем, что такого логина нет
         $stmt = $pdo->prepare("SELECT id FROM users WHERE login = ?");
         $stmt->execute([$login]);
         if (!$stmt->fetch()) {
             return $login;
         }
     }
-    // Если совсем не повезло — добавим timestamp
     return "user_" . time();
 }
 

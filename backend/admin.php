@@ -1,10 +1,5 @@
 <?php
 
-/* =========================
-   Админка без авторизации (для разработки).
-   На проде — обязательно вернуть HTTP Basic Auth.
-========================= */
-
 try {
     $pdo = new PDO(
         'mysql:host=localhost;dbname=webform;charset=utf8',
@@ -17,11 +12,6 @@ try {
 }
 
 
-/* =========================
-   USERS — действия
-========================= */
-
-// CREATE
 if (isset($_POST['create_user'])) {
     $login    = trim($_POST['login']    ?? '');
     $password = trim($_POST['password'] ?? '');
@@ -81,9 +71,6 @@ if (isset($_POST['update_user'])) {
 }
 
 
-/* =========================
-   FETCH
-========================= */
 $stmt  = $pdo->query("SELECT * FROM users ORDER BY id DESC");
 $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
